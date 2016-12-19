@@ -1,0 +1,87 @@
+<!-- <div ng-click="zoomOut()" style="
+  position: absolute;
+  z-index: 100;
+  top: 0%;
+  left: 0%;
+  ">
+  <button>Zoom-Out</button>
+</div>
+<div style="
+  position: absolute;
+  z-index: 100;
+  top: 0%;
+  left: 6.5%;
+  ">
+{{cameraZoom}}
+</div>
+
+<div ng-click="zoomIn()" style="
+  position: absolute;
+  z-index: 100;
+  top: 0%;
+  left: 10%;
+  ">
+  <button>Zoom-In</button>
+</div> -->
+
+<div class="currentTile" ng-if="mazeBuildingInProgress && currentTile != ''">
+    <style>
+        body {
+            cursor:url(/styles/{{currentTile.substring(0,currentTile.length - 4)}}cursor.png) 5 5,
+            auto;
+        }
+
+        #gameArea div:hover {
+            opacity: 0.7;
+        }
+    </style>
+
+</div>
+
+<div ng-if="isHorizontal" id="uiArea_Left">
+<h3>New Maze:</h3><input type="text" ng-model="mazeName" ng-value="mazeName" placeholder="maze name" />
+<button ng-if="mazeName != ''" ng-click="createNewMaze(mazeName)">CREATE!</button>
+<div  >
+  <h3>Your Mazes: </h3>
+<div class="userMazes" ng-repeat="maze in user.maps">
+<p ng-click="loadMaze(maze.name)">{{maze.name}}</p>
+</div>
+</div>
+<div ng-if="mazeBuildingInProgress" class="tileSelectorWindow">
+
+  <h3>Paths</h3>
+  <img ng-src="/styles/grass.png" ng-click="selectedTile('grass.png')"/>
+  <h3>Colliders</h3>
+  <img ng-src="/styles/water.png" ng-click="selectedTile('water.png')" />
+</div>
+
+</div>
+
+<div id="gameArea">
+
+<!-- {{'hi'}}{{currentSize.width}}{{currentSize.height}} -->
+
+      <canvas id="gameCanvas"></canvas>
+      <div class="fill" style="
+         position: absolute;
+         z-index: 100;
+         top: {{getSpritePosition(userPosition.x, userPosition.y).yPos}}%;
+         left: {{getSpritePosition(userPosition.x, userPosition.y).xPos}}%;
+         width: {{gameBoardSize.width / cameraZoom}}px;
+         height: {{gameBoardSize.height / cameraZoom}}px;
+         background-color: black;
+         ">
+      </div>
+
+      <div class="fill" ng-repeat="tile in camera track by $index" ng-click="clickedTile(tile, $index)" style="
+         position: absolute;
+         top: {{divPositions[$index].yPos}}%;
+         left: {{divPositions[$index].xPos}}%;
+         width: {{tile.width + 1.5}}px;
+         height: {{tile.width + 1.5}}px;
+         background-image:url('../styles/{{tile.texture}}');
+         background-size: {{tile.width + 1.5}}px {{tile.width + 1.5}}px
+         ">
+      </div>
+
+  </div>
